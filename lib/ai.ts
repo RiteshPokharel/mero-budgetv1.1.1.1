@@ -9,12 +9,8 @@ interface RawInsight {
 }
 
 const openai = new OpenAI({
-  baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY,
-  defaultHeaders: {
-    'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-    'X-Title': 'MeroBudget',
-  },
+  baseURL: 'https://api.groq.com/openai/v1',
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 export interface ExpenseRecord {
@@ -128,7 +124,7 @@ Use types: warning, info, success, tip. Always include NPR amounts like रू 5
     console.log('📤 Sending request to AI...');
 
     const completion = await openai.chat.completions.create({
-      model: 'deepseek/deepseek-chat-v3-0324:free',
+      model: 'llama-3.1-70b-versatile',
       messages: [
         {
           role: 'system',
@@ -245,7 +241,7 @@ function generateDefaultNepalInsights(): AIInsight[] {
 export async function categorizeExpense(description: string): Promise<string> {
   try {
     const completion = await openai.chat.completions.create({
-      model: 'deepseek/deepseek-chat-v3-0324:free',
+      model: 'llama-3.1-8b-instant',
       messages: [
         {
           role: 'system',
@@ -355,7 +351,7 @@ IMPORTANT: Always use NPR currency format and Nepal-specific advice.
 Return only the answer text, no additional formatting.`;
 
     const completion = await openai.chat.completions.create({
-      model: 'deepseek/deepseek-chat-v3-0324:free',
+      model: 'llama-3.1-70b-versatile',
       messages: [
         {
           role: 'system',
